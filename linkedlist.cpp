@@ -14,19 +14,21 @@ Node* head = new Node;
 llist(){
 head=NULL;
 }
-Node* createnode(int value);
-void addatbeg(int val);
-void display();
-void addele(int val);
-void addatpos(int val);
-void deleteele(int pos);
-void searchele(int val);
-void updateval(int val);
-void reverselist();
-void sortlist();
-void display_nth_element(int pos);
-void display_nth_element_from_last(int pos);
-void palindrome_list();
+Node* createnode(int value); //line 114
+void addatbeg(int val);//line 150
+void display();//line 136
+void addele(int val);//line 121
+void addatpos(int val);//line 246
+void deleteele(int pos);//line 157
+void deletelist();//line 424
+void searchele(int val);//line 191
+void updateval(int val);//line 212
+void reverselist();//line 278
+void sortlist();//line 299
+void display_nth_element(int pos);//line 322
+void display_nth_element_from_last(int pos);//line 350
+void palindrome_list();//line 365
+void remove_duplicate_usorted_list();//line 398
 };
 //MAIN FUNCTION BEGINS HERE !
 int main(){
@@ -35,8 +37,8 @@ llist obj;
 while(1){
 int i;
 cout<<"1.Add element at first position\n2.Add element at last position\n3.Add element at a position\n4."
-<<"Display List\n5.Delete Element\n6.Search an Element\n7.Update Value\n8.Reverse the list\n9.Sort the List\n10.Display N-th Element\n"
-                  <<"11.Display N-th Element From Last\n12.Palindrome Linked List\n13.Exit\nChoose your option : ";
+<<"Display List\n5.Delete Element\n6.Delete Whole List\n7.Search an Element\n8.Update Value\n9.Reverse the list\n10.Sort the List\n11.Display N-th Element\n"
+                  <<"12.Display N-th Element From Last\n13.Palindrome Linked List\n14.Remove Duplicates\n15.Exit\nChoose your option : ";
 cin>>i;
 switch(i){
 case 1:
@@ -65,35 +67,41 @@ cin>>bhalue;
 obj.deleteele(bhalue);
 break;
 case 6:
+obj.deletelist();
+break;
+case 7:
 cout<<"Enter the value of element you want to search : ";
 cin>>bhalue;
 obj.searchele(bhalue);
 break;
-case 7:
+case 8:
 cout<<"Enter the value of the Element you want to update : ";
 cin>>bhalue;
 obj.updateval(bhalue);
 break;
-case 8:
+case 9:
 obj.reverselist();
 break;
-case 9:
+case 10:
 obj.sortlist();
 break;
-case 10:
+case 11:
 cout<<"Enter Position of the Element : ";
 cin>>bhalue;
 obj.display_nth_element(bhalue);
 break;
-case 11:
+case 12:
 cout<<"Enter Position of the Element from Last: ";
 cin>>bhalue;
 obj.display_nth_element_from_last(bhalue);
 break;
-case 12:
+case 13:
 obj.palindrome_list();
 break;
-case 13:
+case 14:
+obj.remove_duplicate_usorted_list();
+break;
+case 15:
 exit(0);
 break;
 }
@@ -311,7 +319,7 @@ s=ptr;
 cout<<"\n\nLIST SORTED SUCCESSFULLY !\n\n";
 }
 }
-//DISPLAY NTH ELEMENT IN A LINKED LIST function
+//DISPLAY NTH ELEMENT IN A LINKED LIST FUNCTION
 void llist::display_nth_element(int pos){
 if(head ==NULL){
 cout<<"\n\nEMPTY LIST\n\n";
@@ -387,3 +395,47 @@ cout<<"\n\nLinked List is a Palindrome !\n\n";
 cout<<"\n\nLinked List is not a Palindrome !\n\n";
 }
 }
+//REMOVING DUPLICATES FROM LIST
+void llist::remove_duplicate_usorted_list(){
+if(head==NULL){
+cout<<"\n\nEMPTY LIST !\n\n";
+return;
+}
+Node* ptr =head;
+Node* prev;
+Node* nextptr;
+while(ptr!=NULL){
+prev = ptr;
+nextptr = ptr->next;
+while(nextptr!=NULL){
+    if(nextptr->data==ptr->data){
+        prev->next=nextptr->next;
+        delete nextptr;
+        nextptr = prev->next;
+    }else{
+    prev = nextptr;
+    nextptr = nextptr->next;
+    }
+}
+ptr = ptr->next;
+}
+cout<<"\n\nDUPLICATES REMOVED SUCCESSFULLY !\n\n";
+}
+//DELETE WHOLE LIST FUNCTION
+void llist::deletelist(){
+if(head==NULL){
+cout<<"\n\nEMPTY LIST !\n\n";
+return;
+}
+Node*ptr = head;
+Node*prev;
+while(ptr!=NULL){
+prev = ptr;
+ptr=ptr->next;
+delete prev;
+}
+head = NULL;
+cout<<"\n\nLIST DELETED SUCCESSFULLY !\n\n";
+}
+
+//HOPE YOU LIKED IT :)
