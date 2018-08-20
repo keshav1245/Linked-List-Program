@@ -1,10 +1,11 @@
-/* This file is created by Keshav Tangri on 18th August,2018
+/* This file was first created on 18th August,2018 by Keshav Tangri 
 This is for educational purposes only.
 This is for B.Tech Students who are or will be studying Data Structures in there curriculum
 For queries mail me @ : tangri57@gmail.com
 */
 #include<iostream>
 #include<cstdlib>
+#include<math.h>
 using namespace std;
 
 class Node{
@@ -26,7 +27,7 @@ void addele(int val);//line 121
 void addatpos(int val);//line 246
 void deleteele(int pos);//line 157
 void deletelist();//line 424
-void searchele(int val);//line 191
+int searchele(int val);//line 191
 void updateval(int val);//line 212
 void reverselist();//line 278
 void sortlist();//line 299
@@ -34,16 +35,18 @@ void display_nth_element(int pos);//line 322
 void display_nth_element_from_last(int pos);//line 350
 void palindrome_list();//line 365
 void remove_duplicate_usorted_list();//line 398
+void swap_nodes_without_swapping_values(int val1,int val2);
 };
 //MAIN FUNCTION BEGINS HERE !
 int main(){
 int bhalue;
+int posi=0;
 llist obj;
 while(1){
 int i;
 cout<<"1.Add element at first position\n2.Add element at last position\n3.Add element at a position\n4."
 <<"Display List\n5.Delete Element\n6.Delete Whole List\n7.Search an Element\n8.Update Value\n9.Reverse the list\n10.Sort the List\n11.Display N-th Element\n"
-                  <<"12.Display N-th Element From Last\n13.Palindrome Linked List\n14.Remove Duplicates\n15.Exit\nChoose your option : ";
+                  <<"12.Display N-th Element From Last\n13.Palindrome Linked List\n14.Remove Duplicates\n15.Swap nodes without swapping values\n16.Exit\nChoose your option : ";
 cin>>i;
 switch(i){
 case 1:
@@ -77,7 +80,13 @@ break;
 case 7:
 cout<<"Enter the value of element you want to search : ";
 cin>>bhalue;
-obj.searchele(bhalue);
+
+posi=obj.searchele(bhalue);
+if(posi==0){
+cout<<"\n\nELEMENT NOT FOUND !\n\n";
+}else{
+cout<<"\n\nElement found at : "<<posi<<" position.\n\n";
+}
 break;
 case 8:
 cout<<"Enter the value of the Element you want to update : ";
@@ -107,6 +116,14 @@ case 14:
 obj.remove_duplicate_usorted_list();
 break;
 case 15:
+cout<<"\n\nUNDER MAINTAINENCE\n\n";
+int val2;
+cout<<"Enter the value of 2 nodes you want to swap : ";
+cin>>bhalue;
+cin>>val2;
+obj.swap_nodes_without_swapping_values(bhalue,val2);
+break;
+case 16:
 exit(0);
 break;
 }
@@ -194,23 +211,24 @@ cout<<"\nOUT OF RANGE EXCEPTION !\n\n";
 }
 
 //SEARCHING AN ELEMENT FUNCTION !
-void llist::searchele(int val){
+int llist::searchele(int val){
 int counter=0;
 Node* p = head;
 if(head==NULL){
 cout<<"\nEMPTY LIST !\n";
-return;
+return counter;
 }
 while(p!=NULL){
 counter++;
 if(p->data==val){
-cout<<"\nElement Found at : "<<counter<<" position\n\n";
 break;
 }
 p=p->next;
 }
-if(p==NULL)
-cout<<"\nVALUE NOT PRESENT !\n";
+if(p==NULL){
+counter = 0;
+}
+return counter;
 }
 
 
@@ -441,6 +459,89 @@ delete prev;
 }
 head = NULL;
 cout<<"\n\nLIST DELETED SUCCESSFULLY !\n\n";
+}
+//swap_nodes_without_swapping_values function
+void llist::swap_nodes_without_swapping_values(int val1,int val2){
+Node* ptr = head;
+Node* prev,*curr1,*curr1prev,*curr2,*curr2prev;
+int counter =0;
+while(ptr!=NULL){
+counter++;
+ptr=ptr->next;
+}
+if(head==NULL){
+cout<<"\n\nEMPTY LIST !\n\n";
+return;
+}
+int val1c = searchele(val1);
+int val2c = searchele(val2);
+if(val1c==0||val2c==0){
+cout<<"\n\nONE OF THE TWO ELEMENTS NOT IN THE LIST, LIST REMAINS UNCHANGED !\n\n";
+return;
+}
+ptr=head;
+prev = NULL;
+while(ptr!=NULL){
+if(ptr->data==val1){
+curr1 = ptr;
+curr1prev = prev;
+}else if(ptr->data==val2){
+curr2 = ptr;
+curr2prev =prev;
+}
+prev = ptr;
+ptr = ptr->next;
+}
+ptr=head;
+if( (ptr->data==val1||ptr->data==val2)&&abs(val1c-val2c)==1 ){
+head=curr2;
+curr1->next = curr2->next;
+curr2->next = curr1;
+
+cout<<"\n\nMODIFICATIONS SUCCESSFUL !\n\n";
+}else if((ptr->data==val1||ptr->data==val2)){
+head = curr2;
+curr2prev->next=curr2->next;
+curr2->next= curr1->next;
+curr1->next=curr2prev->next;
+curr2prev->next=curr1;
+
+cout<<"\n\nMODIFICATIONS SUCCESSFUL !\n\n";
+}else if(abs(val1c-val2c)==1){
+//for adjacent nodes !
+ptr =head;
+prev = head;
+for(int i=1;i<=counter;i++){
+if(i==val1c||i==val2c){
+curr1prev->next=curr2;
+curr2prev->next=curr2->next;
+curr2->next = curr1;
+
+cout<<"\n\nMODIFICATIONS SUCCESSFUL !\n\n";
+break;
+}
+prev=ptr;
+ptr=ptr->next;
+}
+}else{
+//for non adjacent nodes !
+ptr =head;
+prev = head;
+for(int i=1;i<=counter;i++){
+if(i==val1c||i==val2c){
+curr1prev->next=curr2;
+curr2prev->next=curr2->next;
+curr2->next=curr1->next;
+curr1->next=curr2prev->next;
+curr2prev->next=curr1;
+
+cout<<"\n\nMODIFICATIONS SUCCESSFUL !\n\n";
+break;
+}
+prev=ptr;
+ptr=ptr->next;
+}
+}
 }
 
 //HOPE YOU LIKED IT :)
