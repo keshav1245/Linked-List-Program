@@ -1,4 +1,4 @@
-/* This file was first created on 18th August,2018 by Keshav Tangri 
+/* This file was first created on 18th August,2018 by Keshav Tangri
 This is for educational purposes only.
 This is for B.Tech Students who are or will be studying Data Structures in there curriculum
 For queries mail me @ : tangri57@gmail.com
@@ -39,7 +39,7 @@ void swap_nodes_without_swapping_values(int val1,int val2);
 };
 //MAIN FUNCTION BEGINS HERE !
 int main(){
-int bhalue;
+int value;
 int posi=0;
 llist obj;
 while(1){
@@ -51,37 +51,37 @@ cin>>i;
 switch(i){
 case 1:
 cout<<"Enter value you want to add : ";
-cin>>bhalue;
+cin>>value;
 cout<<"\n";
-obj.addatbeg(bhalue);
+obj.addatbeg(value);
 break;
 case 2:
 cout<<"Enter value you want to add : ";
-cin>>bhalue;
+cin>>value;
 cout<<"\n";
-obj.addele(bhalue);
+obj.addele(value);
 break;
 case 3:
 cout<<"Enter value you want to add : ";
-cin>>bhalue;
-obj.addatpos(bhalue);
+cin>>value;
+obj.addatpos(value);
 break;
 case 4:
 obj.display();
 break;
 case 5:
 cout<<"Enter position where you want to delete : ";
-cin>>bhalue;
-obj.deleteele(bhalue);
+cin>>value;
+obj.deleteele(value);
 break;
 case 6:
 obj.deletelist();
 break;
 case 7:
 cout<<"Enter the value of element you want to search : ";
-cin>>bhalue;
+cin>>value;
 
-posi=obj.searchele(bhalue);
+posi=obj.searchele(value);
 if(posi==0){
 cout<<"\n\nELEMENT NOT FOUND !\n\n";
 }else{
@@ -90,8 +90,8 @@ cout<<"\n\nElement found at : "<<posi<<" position.\n\n";
 break;
 case 8:
 cout<<"Enter the value of the Element you want to update : ";
-cin>>bhalue;
-obj.updateval(bhalue);
+cin>>value;
+obj.updateval(value);
 break;
 case 9:
 obj.reverselist();
@@ -101,13 +101,13 @@ obj.sortlist();
 break;
 case 11:
 cout<<"Enter Position of the Element : ";
-cin>>bhalue;
-obj.display_nth_element(bhalue);
+cin>>value;
+obj.display_nth_element(value);
 break;
 case 12:
 cout<<"Enter Position of the Element from Last: ";
-cin>>bhalue;
-obj.display_nth_element_from_last(bhalue);
+cin>>value;
+obj.display_nth_element_from_last(value);
 break;
 case 13:
 obj.palindrome_list();
@@ -119,9 +119,9 @@ case 15:
 cout<<"\n\nUNDER MAINTAINENCE\n\n";
 int val2;
 cout<<"Enter the value of 2 nodes you want to swap : ";
-cin>>bhalue;
+cin>>value;
 cin>>val2;
-obj.swap_nodes_without_swapping_values(bhalue,val2);
+obj.swap_nodes_without_swapping_values(value,val2);
 break;
 case 16:
 exit(0);
@@ -255,15 +255,8 @@ if(p!=NULL){
 cout<<"Enter New Value to be updated : ";
 int temp;
 cin>>temp;
-Node* t =head;
-for(int i=1;i<=counter;i++){
-if(t->data==val){
-t->data = temp;
+p->data = temp;
 cout<<"\nVALUE UPDATED !\n\n";
-break;
-}
-t=t->next;
-}
 }
 }
 //ADDING ELEMENT AT A POSITION !
@@ -273,13 +266,14 @@ int pos;
 cin>>pos;
 Node* ptr = head;
 int counter =0;
+if(pos==1){
+addatbeg(val);
+cout<<"\n\nELEMENT ADDED SUCCESSFULLY !\n\n";
+}else{
 while(ptr!=NULL){
 counter++;
 ptr=ptr->next;
 }
-if(pos==1){
-addatbeg(val);
-}else{
 if(pos>1&&pos<=counter){
 Node* prev;
 Node* temp = createnode(val);
@@ -292,7 +286,7 @@ prev->next = temp;
 temp->next = ptr;
 cout<<"\n\nELEMENT ADDED SUCCESSFULLY !\n\n";
 }else{
-cout<<"END OF RANGE EXCEPTION !";
+cout<<"\n\nEND OF RANGE EXCEPTION !\n\n";
 return;
 }
 }
@@ -382,7 +376,7 @@ while(ptr!=NULL){
 counter++;
 ptr=ptr->next;
 }
-pos = counter-pos;
+pos = counter-pos+1;
 display_nth_element(pos);
 }
 //PALINDROME LINKED LIST FUNCTION !
@@ -406,11 +400,15 @@ ptr = ptr->next;
 ptr = head;
 Node* ptrnew = ob2.head;
 bool flag = true;
+
 for(int i=0;i<counter;i++){
+
 if(ptr->data!=ptrnew->data){
     flag = false;
     break;
 }
+ptr=ptr->next;
+ptrnew=ptrnew->next;
 }
 if(flag){
 cout<<"\n\nLinked List is a Palindrome !\n\n";
